@@ -9,6 +9,7 @@ Project Breakdown
 
 Eric 
 * Login
+* Label Maker
 
 
 Andrew 
