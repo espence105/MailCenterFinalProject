@@ -1,0 +1,14 @@
+client
+
+| ID | fName | lName | studentID (Text-based) | email | forwardingAddress | city | state | zipCode (Text-based) |
+
+package
+
+| ID | packageID | recipientfName | recipientlName | recipientfAddress | recipientCity | recipientState | recipientZCode (Text-Based) |
+
+mailCenterEmployee
+
+| ID | fName | lName | employeeID (Text-Based) |
+
+
+
