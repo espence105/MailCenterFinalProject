@@ -22,7 +22,7 @@ def main():
         print 'Already Installed'
 
     # Install reportlabels #
-    
+    easy_install.main(["-U", "reportlab"])
 
 
 
