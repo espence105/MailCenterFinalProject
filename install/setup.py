@@ -21,9 +21,11 @@ def main():
     except:
         print 'Already Installed'
 
-    # Install reportlabels #
-    easy_install.main(["-U", "reportlab"])
-
+    # Install reportlabels - dont think that this will work will test on a lab computer #
+    try:
+        easy_install.main(["-U", "reportlab"])
+    except:
+        print 'Already Installed'
 
 
 if __name__=='__main__':

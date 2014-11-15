@@ -3,6 +3,7 @@
 # 10/11/14
 
 import Tkinter as tk
+from Tkinter import IntVar
 import tkMessageBox
 
 class Application(tk.Frame):
@@ -12,7 +13,7 @@ class Application(tk.Frame):
         self.grid()
         self.create_widgets()
 
-
+        
     def create_widgets(self):
         self.introLabel = tk.Label(self, text='Please Enter UserName and Password')
         self.quitButton = tk.Button(self, text='Login', command = self.login)
@@ -26,22 +27,31 @@ class Application(tk.Frame):
         self.userPassword = tk.Entry(self, width=40, show='*')
         self.userPassword.insert(0,'***')
         
-        
         self.introLabel.grid()
         self.userNameLabel.grid(row=1, column = 0)
         self.userName.grid(row=1,column=1)
 
         self.userPasswordLabel.grid(row=2,column=0)
         self.userPassword.grid(row=2,column=1)
-        self.quitButton.grid()
+        self.quitButton.grid(row=4)
 
+        self.selection = IntVar()
+        self.mailCenterLogin = tk.Radiobutton(self, text='Employee', variable = self.selection, value=1).grid(row=3,column=0)
+        self.studentLogin = tk.Radiobutton(self, text='Student', variable = self.selection, value=2).grid(row=3,column=1)
+        
+        
     def login(self):
         if self.attempt_login():
             pass
         else:
-            tkMessageBox.showinfo('Incorrect Information', 'Your username or password is incorrect')
+            tkMessageBox.showinfo('Incorrect Information %d'), 'Your username or password is incorrect')
         
     def attempt_login(self):
+        typePerson = self.selection.get()
+        if(typePerson == 1):
+            pass
+        if(typePerson == 2):
+            pass
         return False
    
         
