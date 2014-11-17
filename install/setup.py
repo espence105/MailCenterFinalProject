@@ -13,9 +13,6 @@ def main():
         get_easy_install.main()
     except:
         print 'Already Installed'
-    # Installs Pylabels #
-    foo = get_pylabels.Pylabels()
-    foo.install_it()
     
 
 if __name__=='__main__':

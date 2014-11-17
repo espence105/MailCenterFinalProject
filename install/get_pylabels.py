@@ -1,7 +1,8 @@
-from setuptools.command import easy_install
+
 
 class Pylabels():
-    def install_it(self):  
+    def install_it(self):
+        from setuptools.command import easy_install
         # Installs Pylabels #
         easy_install.main(["-U", "pylabels"])
         

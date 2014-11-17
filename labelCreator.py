@@ -6,6 +6,7 @@ from reportlab.graphics import shapes
 class labelMaker():
     def __init__(self, personInfo):
         self.personalInfo = personInfo
+        print self.personalInfo
         
     # Create an A4 portrait (210mm x 297mm) sheets with 2 columns and 8 rows of
     # labels. Each label is 90mm x 25mm with a 2mm rounded corner. The margins are
@@ -28,7 +29,6 @@ class labelMaker():
         
         # Create the sheet.
         sheet = labels.Sheet(specs, self.draw_label, border=True)
-        foo = {'name': 'Eric Spence', 'address': '8888 Taft Hill Court'}
         # Add a couple of labels.
         sheet.add_label(self.personalInfo)
 
@@ -44,6 +44,10 @@ class labelMaker():
         print("{0:d} label(s) output on {1:d} page(s).".format(sheet.label_count, sheet.page_count))
 
 def main():
-    foo = {'name': 'Eric Spence', 'address': '8888 Taft Hill Court'}
+    foo = {'name': 'Richard Spence', 'address': '8888 Rochester Hill Court'}
     test = labelMaker(foo)
+    print foo
     test.create_everything()
+
+if __name__ == '__main__':
+    main()
