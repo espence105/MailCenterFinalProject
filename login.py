@@ -7,13 +7,12 @@ from Tkinter import IntVar
 import tkMessageBox
 
 class Application(tk.Frame):
+    # Constructor 
     def __init__(self, master=None):
-        
         tk.Frame.__init__(self,master)
         self.grid()
         self.create_widgets()
-
-        
+    # Adds all of the widgets to the frame  
     def create_widgets(self):
         self.introLabel = tk.Label(self, text='Please Enter UserName and Password')
         self.quitButton = tk.Button(self, text='Login', command = self.login)
@@ -39,13 +38,13 @@ class Application(tk.Frame):
         self.mailCenterLogin = tk.Radiobutton(self, text='Employee', variable = self.selection, value=1).grid(row=3,column=0)
         self.studentLogin = tk.Radiobutton(self, text='Student', variable = self.selection, value=2).grid(row=3,column=1)
         
-        
+    # The action taken with the button click
     def login(self):
         if self.attempt_login():
             pass
         else:
-            tkMessageBox.showinfo('Incorrect Information %d'), 'Your username or password is incorrect')
-        
+            tkMessageBox.showinfo('Incorrect Information', 'Your username or password is incorrect')
+    # Attempts to login    
     def attempt_login(self):
         typePerson = self.selection.get()
         if(typePerson == 1):
