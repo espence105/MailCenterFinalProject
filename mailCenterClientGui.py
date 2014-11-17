@@ -8,13 +8,16 @@ import sqlite3
 conn = sqlite3.connect('clientDB2.db')
 
 class Application(tk.Frame):
+    
+    clientDictionary = {}
 
     def __init__ (self, master = None):
         tk.Frame.__init__(self, master)
         self.grid()
-        #self.create_table()
+        theDict = self.getDBinfo()
+        self.create_table(theDict)
         self.create_widgets()
-        self.dbStuff()
+        
         
     def create_widgets(self):
         #make info labels
@@ -45,29 +48,34 @@ class Application(tk.Frame):
         self.firstName.grid(row=3, column=2)
         self.firstEntry.grid(row=3, column=3)
         self.searchButton.grid(row=3, column=4)
-
         
-    # Get a cursor object
-    cursor = conn.cursor()
+##        self.infoLB.grid(row=4,column=1)
 
-    cursor.execute('''SELECT fname, lname FROM client''')
+    def getDBinfo(self):    
+        # Get a cursor object
+        cursor = conn.cursor()
+
+        cursor.execute('''SELECT fname, lname FROM client''')
+                
+        all_rows = cursor.fetchall()
+        
+        for row in all_rows:
+            clientDictionary = {row[0]:row[1]}
+            return clientDictionary
+##            self.infoLB.insert(0, 'first name: {0} last name: {1}'.format(row[0], row[1]))
+
             
-    all_rows = cursor.fetchall()
-    for row in all_rows:
-        #row[0] returns the first column in the query (fname), row[1]
-        #returns lname column.
         
-        self.infoLB.insert(0, 'first name: {0} last name: {1}'.format(row[0], row[1])) 
-##        
-##    def create_table(self):
-##        rows = []
-##        for i in range(10):
-##            cols = []
-##            for j in range(10):
-##                self.e = tk.Label(self)
-##                self.e.grid(row=i, column=j)
-##                cols.append(self.e)
-##            rows.append(cols)
+    def create_table(self, dictionary):
+        
+        rows = []
+        for i in range(4, len(dictionary)+4):
+            cols = []
+            for j in range(4):
+                self.e = tk.Entry(self)
+                self.e.grid(row=i, column=j)
+                cols.append(self.e)
+            rows.append(cols)
 
     def search(self):
         pass       
@@ -81,3 +89,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
