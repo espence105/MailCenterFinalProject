@@ -9,14 +9,11 @@ conn = sqlite3.connect('clientDB2.db')
 
 class Application(tk.Frame):
     
-    clientDictionary = {}
-
     def __init__ (self, master = None):
         tk.Frame.__init__(self, master)
         self.grid()
-        theDict = self.getDBinfo()
-        self.create_table(theDict)
         self.create_widgets()
+        theDict = self.getDBinfo()
         
         
     def create_widgets(self):
@@ -25,13 +22,14 @@ class Application(tk.Frame):
         self.searchLabel = tk.Label(self, text = 'Search for forwarding student')
 
         #make search button
-        self.searchButton = tk.Button(self, text= 'Search', command = self.search)
+        self.searchButton = tk.Button(self, text= 'Search', command = self.search())
         
         #make search info labels
         self.lastName = tk.Label(self, text = 'Last Name:') 
         self.firstName = tk.Label(self, text = 'First Name:')
 
-        self.infoLB = tk.Listbox(self)
+        self.infoLB = tk.Listbox(self, selectmode='multiple', width=70)
+        
 
         #make entry boxes
         self.firstEntry = tk.Entry(self, width=40)
@@ -49,38 +47,28 @@ class Application(tk.Frame):
         self.firstEntry.grid(row=3, column=3)
         self.searchButton.grid(row=3, column=4)
         
-##        self.infoLB.grid(row=4,column=1)
+        self.infoLB.grid(row=4,column=0,columnspan=2)
 
     def getDBinfo(self):    
         # Get a cursor object
         cursor = conn.cursor()
 
-        cursor.execute('''SELECT fname, lname FROM client''')
+        cursor.execute('''SELECT ID, fname, lname FROM client''')
                 
         all_rows = cursor.fetchall()
-        
-        for row in all_rows:
-            clientDictionary = {row[0]:row[1]}
-            return clientDictionary
-##            self.infoLB.insert(0, 'first name: {0} last name: {1}'.format(row[0], row[1]))
 
-            
         
-    def create_table(self, dictionary):
-        
-        rows = []
-        for i in range(4, len(dictionary)+4):
-            cols = []
-            for j in range(4):
-                self.e = tk.Entry(self)
-                self.e.grid(row=i, column=j)
-                cols.append(self.e)
-            rows.append(cols)
+        clientDictionary = {}
+
+        for row in all_rows:
+            clientDictionary[row[0]]=(row[1],row[2])
+            #clientDictionary['Last Name']= row[1]
+            self.infoLB.insert('end',
+                '{0}|| First Name: {1}| Last name: {2}'.format(row[0],
+                                                      row[1], row[2]))
 
     def search(self):
-        pass       
-
-
+        pass
 
 def main():
     app = Application()
