@@ -58,20 +58,19 @@ class Application(tk.Frame):
         # Get a cursor object
         cursor = conn.cursor()
 
-        cursor.execute('''SELECT ID, fname, lname, city, state, zipcode FROM client''')
+        cursor.execute('''SELECT fname, lname, forwardingAddress, city,
+                                        state, zipcode FROM client''')
                 
         all_rows = cursor.fetchall()
-        print all_rows
-
-        
+ 
         clientDictionary = {}
 
         for row in all_rows:
             clientDictionary[row[0]]=(row[1],row[2])
             #clientDictionary['Last Name']= row[1]
             self.infoLB.insert('end',
-                '{0}||{2}, {1}: [address] {3}, {4} {5}'.format(row[0],
-                                                      row[1], row[2], row[3], row[4], row[5]))
+                '{1}, {0}: {2} {3}, {4} {5}'.format(row[0], row[1], row[2],
+                                                    row[3], row[4], row[5]))
 
     def search(self):
         pass
