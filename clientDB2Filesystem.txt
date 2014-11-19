@@ -1,12 +1,9 @@
 client
 
-| ID | fName | lName | studentID (Text-based) | email | forwardingAddress | city | state | zipCode (Text-based) |
+fName | lName | studentID (Text-based) | email | forwardingAddress | city | state | zipCode (Text-based) | gradDate (Text-Based)
 
-package
 
-| ID | packageID | recipientfName | recipientlName | recipientfAddress | recipientCity | recipientState | recipientZCode (Text-Based) |
-
-mailCenterEmployee
+mailCenterEmployee (NOT THERE RIGHT NOW)
 
 | ID | fName | lName | employeeID (Text-Based) |
 
