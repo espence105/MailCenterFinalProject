@@ -21,8 +21,11 @@ class Application(tk.Frame):
         self.welcomeLabel = tk.Label(self, text = 'Welcome Mail Center Client')
         self.searchLabel = tk.Label(self, text = 'Search for forwarding student')
 
-        #make search button
-        self.searchButton = tk.Button(self, text= 'Search', command = self.search())
+        #make buttons
+        self.searchButton = tk.Button(self, text= 'Search',
+                                      command = self.search())
+        self.printButton = tk.Button(self, text = 'Print Selected Labels',
+                                     command = self.printLabel())
         
         #make search info labels
         self.lastName = tk.Label(self, text = 'Last Name:') 
@@ -48,6 +51,7 @@ class Application(tk.Frame):
         self.searchButton.grid(row=3, column=4)
         
         self.infoLB.grid(row=4,column=0,columnspan=2)
+        self.printButton.grid(row=4, column=3)
 
     def getDBinfo(self):    
         # Get a cursor object
@@ -68,6 +72,9 @@ class Application(tk.Frame):
                                                       row[1], row[2]))
 
     def search(self):
+        pass
+    
+    def printLabel(self):
         pass
 
 def main():
