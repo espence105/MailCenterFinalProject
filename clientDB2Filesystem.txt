@@ -3,9 +3,9 @@ client
 fName | lName | studentID (Text-based) | email | forwardingAddress | city | state | zipCode (Text-based) | gradDate (Text-Based)
 
 
-mailCenterEmployee (NOT THERE RIGHT NOW)
+employee
 
-| ID | fName | lName | employeeID (Text-Based) |
+| username |
 
 
 
