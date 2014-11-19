@@ -20,12 +20,13 @@ class Application(tk.Frame):
         #make info labels
         self.welcomeLabel = tk.Label(self, text = 'Welcome Mail Center Client')
         self.searchLabel = tk.Label(self, text = 'Search for forwarding student')
-
+        self.infoLB = tk.Listbox(self, selectmode='multiple', width=70)
+        
         #make buttons
         self.searchButton = tk.Button(self, text= 'Search',
                                       command = self.search())
         self.printButton = tk.Button(self, text = 'Print Selected Labels',
-                                     command = self.printLabel())
+                                     command = self.printLabel(self.infoLB))
         
         #make search info labels
         self.lastName = tk.Label(self, text = 'Last Name:') 
@@ -57,9 +58,10 @@ class Application(tk.Frame):
         # Get a cursor object
         cursor = conn.cursor()
 
-        cursor.execute('''SELECT ID, fname, lname FROM client''')
+        cursor.execute('''SELECT ID, fname, lname, city, state, zipcode FROM client''')
                 
         all_rows = cursor.fetchall()
+        print all_rows
 
         
         clientDictionary = {}
@@ -68,14 +70,17 @@ class Application(tk.Frame):
             clientDictionary[row[0]]=(row[1],row[2])
             #clientDictionary['Last Name']= row[1]
             self.infoLB.insert('end',
-                '{0}|| First Name: {1}| Last name: {2}'.format(row[0],
-                                                      row[1], row[2]))
+                '{0}||{2}, {1}: [address] {3}, {4} {5}'.format(row[0],
+                                                      row[1], row[2], row[3], row[4], row[5]))
 
     def search(self):
         pass
     
-    def printLabel(self):
-        pass
+    def printLabel(self, lb):
+        selected = lb.get('active')
+        print selected
+        
+        
 
 def main():
     app = Application()
