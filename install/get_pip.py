@@ -18,6 +18,7 @@
 #
 # If you're wondering how this is created, the secret is
 # "contrib/build-installer" from the pip repository.
+# THIS WAS WRITTEN BY THE CREATOR OF THIS TOOL
 
 ZIPFILE = b"""
 UEsDBBQAAAAIAHeDxEQMVWtseQwAAOokAAAPAAAAcGlwL19faW5pdF9fLnB5pRprb+M28rt/BTdp

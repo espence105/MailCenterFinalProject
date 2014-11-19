@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# THIS WAS WRITTEN BY THE CREATOR OF THIS TOOL
 """Bootstrap setuptools installation
 
 To use setuptools in your package's setup.py, include this
