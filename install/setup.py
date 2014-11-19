@@ -1,7 +1,12 @@
+# setup.py
+# Eric Spence
+# 11/17/14
+# Purpose: To install pip and easy_install 
 import get_pylabels 
 import get_pip
 import get_easy_install
 import sys
+
 def main():
     # Install Pip #
     try:
