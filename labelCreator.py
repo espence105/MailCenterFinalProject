@@ -24,9 +24,10 @@ class labelMaker():
         # the label.
         name = shapes.String(width/2.0, 52, obj['name'], textAnchor="middle")
         label.add(name)
-        s = shapes.String(width/2.0, 15, obj['address'], textAnchor="middle")
+        s = shapes.String(width/2.0, 30, obj['address'], textAnchor="middle")
         label.add(s)
-
+        s = shapes.String(width/2.0, 15, obj['state'], textAnchor="middle")
+        label.add(s)
     # draws the label in the pdf file
     def create_everything(self):
         specs = labels.Specification(210, 297, 2, 8, 90, 25, corner_radius=2)
@@ -49,7 +50,7 @@ class labelMaker():
 
 # main for testing
 def main():
-    foo = {'name': 'Richard Spence', 'address': '8888 Rochester Hill Court'}
+    foo = {'name': 'Richard Spence', 'address': '8888 Rochester Hill Court', 'state':'UT'}
     test = labelMaker(foo)
     test.create_everything()
 

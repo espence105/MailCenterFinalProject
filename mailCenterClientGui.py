@@ -2,6 +2,8 @@
 #Makenzie Bontrager
 #November 11
 
+import re
+import labelCreator
 import Tkinter as tk
 import tkMessageBox
 import sqlite3
@@ -24,15 +26,15 @@ class Application(tk.Frame):
         
         #make buttons
         self.searchButton = tk.Button(self, text= 'Search',
-                                      command = self.search())
+                                      command = self.search)
         self.printButton = tk.Button(self, text = 'Print Selected Labels',
-                                     command = self.printLabel(self.infoLB))
+                                     command = self.printLabel)
         
         #make search info labels
         self.lastName = tk.Label(self, text = 'Last Name:') 
         self.firstName = tk.Label(self, text = 'First Name:')
 
-        self.infoLB = tk.Listbox(self, selectmode='multiple', width=70)
+        self.infoLB = tk.Listbox(self, selectmode='single', width=70)
         
 
         #make entry boxes
@@ -69,14 +71,22 @@ class Application(tk.Frame):
             clientDictionary[row[0]]=(row[1],row[2])
             #clientDictionary['Last Name']= row[1]
             self.infoLB.insert('end',
-                '{1}, {0}: {2} {3}, {4} {5}'.format(row[0], row[1], row[2],
+                '{1}, {0}: {2}, {3} {4} {5}'.format(row[0], row[1], row[2],
                                                     row[3], row[4], row[5]))
 
     def search(self):
         pass
     
-    def printLabel(self, lb):
-        selected = lb.get('active')
+    def printLabel(self):
+        selected = self.infoLB.get('active')
+        matchObj = re.match(r'([\w]+), ([\w]+): ([\w\s]+), ([\w\s]+)' ,selected, re.M|re.I)
+        print matchObj.group(1)
+        print matchObj.group(2)
+        print matchObj.group(3)
+
+        foo = {'name': matchObj.group(1) + ' ' + matchObj.group(2) , 'address': matchObj.group(4), 'state':matchObj.group(3)}
+        test = labelCreator.labelMaker(foo)
+        test.create_everything()
         print selected
         
         
