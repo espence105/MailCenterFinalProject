@@ -22,6 +22,15 @@ class ClientFrontend(tk.Frame):
     def create_widgets(self):
         self.introLabel = tk.Label(self, text='Please Enter Forwarding Information (All Is Required)')
         self.saveButton = tk.Button(self, text='Save',command=self.save)
+
+        self.TypeFirstName = tk.Entry(self, width=40)
+        self.TypeFirstName.insert(0,'Jason')
+        
+        self.TypeLastName = tk.Entry(self, width=40)
+        self.TypeLastName.insert(0,'Samuels')
+
+        self.TypeStudentID = tk.Entry(self, width=40)
+        self.TypeStudentID.insert(0,'2081362')
         
         self.TypeStreetAddress = tk.Entry(self, width=40)
         self.TypeStreetAddress.insert(0,'5555 Candy Apple Lane')
@@ -38,15 +47,22 @@ class ClientFrontend(tk.Frame):
         self.TypeEmail = tk.Entry(self, width=40)
         self.TypeEmail.insert(0,'hello@anderson.edu')
 
+        self.TypeGradDay= tk.Entry(self, width=40)
+        self.TypeGradDay.insert(0,'May 2015')
+
   
 
         ##########################################################################
         #Displaying the Textboxes
+        self.FirstNameLabel = tk.Label(self, text='First Name:')
+        self.LastNameLabel = tk.Label(self, text='Last Name:')
+        self.StudentIDLabel = tk.Label(self, text='Student ID:')
         self.StreetAddressLabel = tk.Label(self, text='Street Address:')
         self.StateLabel = tk.Label(self, text='State:')
         self.CityLabel = tk.Label(self, text='City:')
         self. ZipLabel= tk.Label(self, text='Zip:')
         self.EmailLabel = tk.Label(self, text='Email:')
+        self.GradDayLabel = tk.Label(self, text='Graduation Date:')
        
         
 
@@ -54,20 +70,27 @@ class ClientFrontend(tk.Frame):
 
         
         self.introLabel.grid()
-        self.TypeStreetAddress.grid(row=1,column=1)
-        self.TypeState.grid(row=2,column=1)
-        self.TypeCity.grid(row=3,column=1)
-        self.TypeZip.grid(row=4,column=1)
-        self.TypeEmail.grid(row=5,column=1)
+        self.TypeFirstName.grid(row=1,column=1)
+        self.TypeLastName.grid(row=2,column=1)
+        self.TypeStudentID.grid(row=3,column=1)
+        self.TypeStreetAddress.grid(row=4,column=1)
+        self.TypeState.grid(row=5,column=1)
+        self.TypeCity.grid(row=6,column=1)
+        self.TypeZip.grid(row=7,column=1)
+        self.TypeEmail.grid(row=8,column=1)
+        self.TypeGradDay.grid(row=9,column=1)
         #Displaying the Textboxes
         ###########################################################################
 
-        
-        self.StreetAddressLabel.grid(row=1, column = 0)
-        self.StateLabel.grid(row=2,column=0)
-        self.CityLabel.grid(row=3, column = 0)
-        self.ZipLabel.grid(row=4,column=0)
-        self.EmailLabel.grid(row=5,column=0)
+        self.FirstNameLabel.grid(row=1, column = 0)
+        self.LastNameLabel.grid(row=2, column = 0)
+        self.StudentIDLabel.grid(row=3, column = 0)
+        self.StreetAddressLabel.grid(row=4, column = 0)
+        self.StateLabel.grid(row=5,column=0)
+        self.CityLabel.grid(row=6, column = 0)
+        self.ZipLabel.grid(row=7,column=0)
+        self.EmailLabel.grid(row=8,column=0)
+        self.GradDayLabel.grid(row=9, column = 0)
 
        
         self.saveButton.grid()
@@ -82,10 +105,10 @@ class ClientFrontend(tk.Frame):
          c.execute('PRAGMA foreign_keys = ON')
          conn.commit()
 
-         customerData = [(None, self.TypeStreetAddress, self.TypeState, self.TypeCity, self.TypeZip, self.TypeEmail)]
+         customerData = (self.TypeFirstName,self.TypeLastName,self.TypeStudentID,self.TypeEmail,self.TypeStreetAddress,self.TypeCity,self.TypeState,self.TypeZip,self.TypeGradDay)
 
-         for element in customerData:
-             c.executemany("INSERT INTO Client VALUES (?,?,?,?,?,?,?,?,?)", (element,))
+        
+         c.executemany("INSERT INTO client VALUES (?,?,?,?,?,?,?,?,?)", (customerData,))
          conn.commit()
 
          c.close()
@@ -108,7 +131,7 @@ class ClientFrontend(tk.Frame):
 def main():
     app = ClientFrontend()
     app.master.title('Forwarding Information')
-    app.master.geometry("%dx%d%+d%+d" % (1000, 170, 300, 300))
+    app.master.geometry("%dx%d%+d%+d" % (1000, 370, 300, 300))
     app.mainloop()
     
 # Calls the function
