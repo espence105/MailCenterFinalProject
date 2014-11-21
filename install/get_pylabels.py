@@ -16,6 +16,7 @@ class Pylabels():
         from setuptools.command import easy_install
         # Installs Pylabels #
         easy_install.main(["-U", "pylabels"])
+        easy_install.main(["-U", "python-ldap"])
         # Installs reportlab
         check_output('python -m pip install -U reportlab', shell = True)
 

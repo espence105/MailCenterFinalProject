@@ -1,6 +1,8 @@
 import Tkinter as tk
 from Tkinter import IntVar
 import tkMessageBox
+import dataBase
+import login
 from passlib.hash import sha256_crypt
 
 
@@ -62,6 +64,15 @@ class Application(tk.Frame):
         
     def create_new_user(self):
         hash = sha256_crypt.encrypt(self.userPassword.get())
+        db = dataBase.DataBase()
+        db.insert_nonstudent({self.userName, hash, self.userFirstName, self.userLastName})
+        self.destroy()
+        
+        # Creates new Login Form to login 
+        app = login.Application()
+        app.master.title('Login')
+        app.master.geometry("%dx%d%+d%+d" % (700, 150, 400, 400))
+        app.mainloop()
          
 
 
