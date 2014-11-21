@@ -60,7 +60,7 @@ class DataBase(object):
                 cur.executemany('UPDATE client SET email=?, forwardingAddress=?, city=?, state=?, zipCode=? WHERE studentID = ?', (update_info,))
 
                 cur.execute('SELECT * FROM client WHERE studentID = ?', (update_info[5],))
-                row = cur.fetchall()
+                row = cur.fetchone()
                 return row
                     
         except lite.Error, e:
@@ -91,7 +91,7 @@ class DataBase(object):
 
                 cur.execute('SELECT * FROM client WHERE studentID = ?', (client_id,))
 
-                row = cur.fetchall()
+                row = cur.fetchone()
                 return row
         except lite.Error, e:
             if con:
@@ -222,8 +222,8 @@ class DataBase(object):
             if con:
                 con.close()
 
-    def insert_nonstudent(self, nonstudent_username):
-        """ Attempts to insert information for clients that are not AU students.
+    def delete_nonstudent(self, nonstudent_username):
+        """ Attempts to delete information for clients that are not AU students.
             Rolls back the database to last stable instance if fails.  Only
             to be used by mail center employees. """
 
@@ -246,13 +246,64 @@ class DataBase(object):
             if con:
                 con.close()
 
+    """ def update_nonstudent(self, nonstudent_info):
+         Attempts to change the password of a client that is not an AU student.
+            Rolls back the database to last stable instance if fails.
+            Only to be used by mail center employees. 
+
+        #Connect to database.  Create a new one if it does not exist.
+        con = lite.connect('clientDB2.db')
+
+        try:
+            with con:
+                #Create the nonstudent table if it does not exist
+                cur = con.cursor()
+                cur.execute('CREATE TABLE IF NOT EXISTS nonstudent(username TEXT NOT NULL, password TEXT NOT NULL, fName TEXT NOT NULL, lName TEXT NOT NULL)')
+
+                cur.execute('UPDATE nonstudent SET password = ? WHERE username = ?)', (nonstudent_info,))
+        except lite.Error, e:
+            if con:
+                con.rollback()
+            #print "Error %s:" %e.args[0]
+            #sys.exit()
+        finally:
+            if con:
+                con.close() """
+
+    def select_nonstudent(self, nonstudent_username):
+        """ Attempts to select the login info of a client that is not an AU student.
+            Rolls back the dataase to last stable instance if fails.
+            Only to be used to log nonstudents in."""
+        #Connect to database.  Create a new one if it does not exist.
+        con = lite.connect('clientDB2.db')
+
+        try:
+            with con:
+                #Create the nonstudent table if it does not exist
+                cur = con.cursor()
+                cur.execute('CREATE TABLE IF NOT EXISTS nonstudent(username TEXT NOT NULL, password TEXT NOT NULL, fName TEXT NOT NULL, lName TEXT NOT NULL)')
+
+                cur.execute('SELECT username, password FROM nonstudent WHERE username = ?)', (nonstudent_username,))
+
+                row = cur.fetchone()
+                return row
+            
+        except lite.Error, e:
+            if con:
+                con.rollback()
+            #print "Error %s:" %e.args[0]
+            #sys.exit()
+        finally:
+            if con:
+                con.close()
     
 
 
 ## FOR TESTING ##
-"""def main():
+def main():
     DB = DataBase()
+    DB.insert_employee('Group1')
     
 
 if __name__ == '__main__':
-    main()"""
+    main()
