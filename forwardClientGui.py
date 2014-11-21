@@ -6,6 +6,7 @@
 #Using Tkinter
 import Tkinter as tk # link to the Gui.py file
 import tkMessageBox
+#Connecting to the database
 import sqlite3
 conn = sqlite3.connect('clientDB2.db')
 
@@ -20,6 +21,7 @@ class ClientFrontend(tk.Frame):
 
 #These are the widgets.
     def create_widgets(self):
+        
         self.introLabel = tk.Label(self, text='Please Enter Forwarding Information (All Is Required)')
         self.saveButton = tk.Button(self, text='Save',command=self.save)
 
@@ -53,7 +55,7 @@ class ClientFrontend(tk.Frame):
   
 
         ##########################################################################
-        #Displaying the Textboxes
+        #Displaying the Textboxes and the labels 
         self.FirstNameLabel = tk.Label(self, text='First Name:')
         self.LastNameLabel = tk.Label(self, text='Last Name:')
         self.StudentIDLabel = tk.Label(self, text='Student ID:')
@@ -79,8 +81,7 @@ class ClientFrontend(tk.Frame):
         self.TypeZip.grid(row=7,column=1)
         self.TypeEmail.grid(row=8,column=1)
         self.TypeGradDay.grid(row=9,column=1)
-        #Displaying the Textboxes
-        ###########################################################################
+       
 
         self.FirstNameLabel.grid(row=1, column = 0)
         self.LastNameLabel.grid(row=2, column = 0)
@@ -91,43 +92,47 @@ class ClientFrontend(tk.Frame):
         self.ZipLabel.grid(row=7,column=0)
         self.EmailLabel.grid(row=8,column=0)
         self.GradDayLabel.grid(row=9, column = 0)
-
+        #Displaying the Textboxes and the labels 
+        ###########################################################################
        
         self.saveButton.grid()
 
     def save(self):
         if self.attempt_save():
-            tkMessageBox.showinfo('Info has been Updated and Saved')
-        
+            tkMessageBox.showinfo('Updated Info','Info has been Updated and Saved')
+
     def attempt_save(self):
+        #Saving data to the database table
          conn = sqlite3.connect('clientDB2.db')
          c = conn.cursor()
-         c.execute('PRAGMA foreign_keys = ON')
-         conn.commit()
-
-         customerData = (self.TypeFirstName,self.TypeLastName,self.TypeStudentID,self.TypeEmail,self.TypeStreetAddress,self.TypeCity,self.TypeState,self.TypeZip,self.TypeGradDay)
-
-        
-         c.executemany("INSERT INTO client VALUES (?,?,?,?,?,?,?,?,?)", (customerData,))
+        # Insert statement into the table 
+         c.execute("INSERT INTO client(fName,lName,studentID,email,forwardingAddress,city,state,zipCode,gradDate) VALUES (?,?,?,?,?,?,?,?,?)",[self.TypeFirstName.get(),self.TypeLastName.get(),self.TypeStudentID.get(),self.TypeEmail.get(),self.TypeStreetAddress.get(),self.TypeCity.get(),self.TypeState.get(),self.TypeZip.get(),self.TypeGradDay.get()])
          conn.commit()
 
          c.close()
          conn.close()
-
-         self.TypeStreetAddress.delete(0, END)
-         self.TypeState.delete(0, END)
-         self.TypeCity.delete(0, END)
-         self.TypeZip.delete(0, END)
-         self.TypeEmail.delete(0, END)
          
+         #Deleting all of the Entries after saving data
+         self.TypeFirstName.delete(0,tk.END)
+         self.TypeLastName.delete(0,tk.END)
+         self.TypeStudentID.delete(0,tk.END)
+         self.TypeStreetAddress.delete(0,tk.END)
+         self.TypeState.delete(0,tk.END)
+         self.TypeCity.delete(0,tk.END)
+         self.TypeZip.delete(0,tk.END)
+         self.TypeEmail.delete(0,tk.END)
+         self.TypeGradDay.delete(0,tk.END)
 
+         
          print ("Saved")
          return True
+
+        
         
    
         
         
-
+#The main function 
 def main():
     app = ClientFrontend()
     app.master.title('Forwarding Information')
