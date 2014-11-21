@@ -54,8 +54,12 @@ class Application(tk.Frame):
         self.searchButton.grid(row=3, column=4)
         self.fwdLabel.grid(row=5, column=0, columnspan=2)
         
+<<<<<<< HEAD
         self.infoLB.grid(row=6,column=0,columnspan=2)
         self.printButton.grid(row=5, column=3)
+=======
+        self.infoLB.grid(row=6,column=0,columnspan=3)
+>>>>>>> 0f06de6a9c3b27eb9d25b984f2cae2e82c03f9bf
 
     def getDBinfo(self):    
         # Get a cursor object
@@ -122,6 +126,7 @@ class Application(tk.Frame):
 def main():
     app = Application()
     app.master.title('Mail Center Client GUI')
+    app.master.geometry('800x300')
     app.mainloop()
 
 if __name__ == '__main__':
