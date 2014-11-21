@@ -15,7 +15,8 @@ class Application(tk.Frame):
         tk.Frame.__init__(self, master)
         self.grid()
         self.create_widgets()
-        theDict = self.getDBinfo()
+        rows = self.getDBinfo()
+        theDict = self.fillLB(rows)
         
         
     def create_widgets(self):
@@ -33,53 +34,81 @@ class Application(tk.Frame):
         #make search info labels
         self.lastName = tk.Label(self, text = 'Last Name:') 
         self.firstName = tk.Label(self, text = 'First Name:')
-
+        self.fwdLabel = tk.Label(self, text = 'Forwarding Clients')
+        
         self.infoLB = tk.Listbox(self, selectmode='single', width=70)
         
 
         #make entry boxes
         self.firstEntry = tk.Entry(self, width=40)
-        self.firstEntry.insert(0, 'First Name')
         self.lastEntry = tk.Entry(self, width=40)
-        self.lastEntry.insert(0, 'Last Name')
 
-        #plop things in grid
+        #display widgets in grid
         self.welcomeLabel.grid(row=0, column=0)
         self.searchLabel.grid(row=1, column=0)
         
-        self.lastName.grid(row=3, column=0)
-        self.lastEntry.grid(row=3, column=1)
-        self.firstName.grid(row=3, column=2)
-        self.firstEntry.grid(row=3, column=3)
+        self.lastName.grid(row=3, column=2)
+        self.lastEntry.grid(row=3, column=3)
+        self.firstName.grid(row=3, column=0, sticky = 'e')
+        self.firstEntry.grid(row=3, column=1)
         self.searchButton.grid(row=3, column=4)
+        self.fwdLabel.grid(row=5, column=0, columnspan=2)
         
-        self.infoLB.grid(row=4,column=0,columnspan=2)
-        self.printButton.grid(row=4, column=3)
+        self.infoLB.grid(row=6,column=0,columnspan=2)
+        self.printButton.grid(row=5, column=3)
 
     def getDBinfo(self):    
         # Get a cursor object
+        conn = sqlite3.connect('clientDB2.db')
         cursor = conn.cursor()
 
         cursor.execute('''SELECT fname, lname, forwardingAddress, city,
                                         state, zipcode FROM client''')
                 
         all_rows = cursor.fetchall()
- 
-        clientDictionary = {}
+        conn.close()
+        
+        return all_rows
 
-        for row in all_rows:
-            clientDictionary[row[0]]=(row[1],row[2])
-            #clientDictionary['Last Name']= row[1]
+    def fillLB(self, rows):
+        self.infoLB.delete(0, 'end')
+        
+        for row in rows:
             self.infoLB.insert('end',
                 '{1}, {0}: {2}, {3} {4} {5}'.format(row[0], row[1], row[2],
                                                     row[3], row[4], row[5]))
 
     def search(self):
-        pass
-    
+        dataRows = self.getDBinfo()
+
+        lname = self.lastEntry.get()
+        fname = self.firstEntry.get()
+
+        searchList = []
+
+        if lname == '' and fname == '':
+            tkMessageBox.showinfo('Error', 'Please enter first/last name.')
+        else:
+            for row in dataRows:
+                #if first and last name are equal, append
+                if fname == row[0] and lname == row[1]:
+                    searchList.append(row)
+                #if only first name is equal, append
+                elif fname == row[0]:
+                    searchList.append(row)
+                #if only last name is equal, append
+                elif lname == row[1]:
+                    searchList.append(row)
+            if searchList == []:
+                tkMessageBox.showinfo('No Results', 'No matches found.')
+                self.fillLB(dataRows)
+            else:
+                self.fillLB(searchList)       
+        
     def printLabel(self):
         selected = self.infoLB.get('active')
-        matchObj = re.match(r'([\w]+), ([\w]+): ([\w\s]+), ([\w\s]+)' ,selected, re.M|re.I)
+        matchObj = re.match(r'([\w]+), ([\w]+): ([\w\s]+), ([\w\s]+)' ,
+                                            selected, re.M|re.I)
         print matchObj.group(1)
         print matchObj.group(2)
         print matchObj.group(3)
@@ -87,7 +116,6 @@ class Application(tk.Frame):
         foo = {'name': matchObj.group(1) + ' ' + matchObj.group(2) , 'address': matchObj.group(4), 'state':matchObj.group(3)}
         test = labelCreator.labelMaker(foo)
         test.create_everything()
-        print selected
         
         
 
