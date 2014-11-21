@@ -250,9 +250,10 @@ class DataBase(object):
 
 
 ## FOR TESTING ##
-"""def main():
+def main():
     DB = DataBase()
+    DB.insert_employee('Group1')
     
 
 if __name__ == '__main__':
-    main()"""
+    main()
