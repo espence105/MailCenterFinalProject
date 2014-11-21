@@ -222,8 +222,8 @@ class DataBase(object):
             if con:
                 con.close()
 
-    def insert_nonstudent(self, nonstudent_username):
-        """ Attempts to insert information for clients that are not AU students.
+    def delete_nonstudent(self, nonstudent_username):
+        """ Attempts to delete information for clients that are not AU students.
             Rolls back the database to last stable instance if fails.  Only
             to be used by mail center employees. """
 
