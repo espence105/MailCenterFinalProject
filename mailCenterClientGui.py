@@ -82,7 +82,7 @@ class Application(tk.Frame):
         self.searchButton.grid(row=3, column=4)
         self.printButton.grid(row=5, column=3)
         
-        self.infoLB.grid(row=6,column=0,columnspan=2)
+        self.infoLB.grid(row=6,column=0,columnspan=3)
 
     def getDBinfo(self):
         """open database connection; use cursor to execute select statement to
@@ -173,6 +173,7 @@ def main():
     """the main function"""
     app = Application()
     app.master.title('Mail Center Client GUI')
+    app.master.geometry('800x300')
     app.mainloop()
 
 if __name__ == '__main__':
