@@ -269,6 +269,33 @@ class DataBase(object):
         finally:
             if con:
                 con.close() """
+
+    def select_nonstudent(self, nonstudent_username):
+        """ Attempts to select the login info of a client that is not an AU student.
+            Rolls back the dataase to last stable instance if fails.
+            Only to be used to log nonstudents in."""
+        #Connect to database.  Create a new one if it does not exist.
+        con = lite.connect('clientDB2.db')
+
+        try:
+            with con:
+                #Create the nonstudent table if it does not exist
+                cur = con.cursor()
+                cur.execute('CREATE TABLE IF NOT EXISTS nonstudent(username TEXT NOT NULL, password TEXT NOT NULL, fName TEXT NOT NULL, lName TEXT NOT NULL)')
+
+                cur.execute('SELECT username, password FROM nonstudent WHERE username = ?)', (nonstudent_username,))
+
+                row = cur.fetchone()
+                return row
+            
+        except lite.Error, e:
+            if con:
+                con.rollback()
+            #print "Error %s:" %e.args[0]
+            #sys.exit()
+        finally:
+            if con:
+                con.close()
     
 
 
