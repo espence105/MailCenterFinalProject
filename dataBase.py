@@ -152,17 +152,22 @@ class DataBase(object):
 
         #Connect to database.  Creates a new one if it does not exits.
         con = lite.connect('clientDB2.db')
+        print len(employee_username)
         try:
-            with con:
+            if len(employee_username) == 0:
+                return 'fail'
+            
+            else:
+                with con:
 
-                #Create the employee table if it does not exist
-                cur = con.cursor()
-                cur.execute('CREATE TABLE IF NOT EXISTS employee(username TEXT NOT NULL)')
+                    #Create the employee table if it does not exist
+                    cur = con.cursor()
+                    cur.execute('CREATE TABLE IF NOT EXISTS employee(username TEXT NOT NULL)')
 
                 
-                cur.execute('INSERT INTO employee VALUES (?)', (employee_username,))
-                con.commit()
-                return True
+                    cur.execute('INSERT INTO employee VALUES (?)', (employee_username,))
+                    con.commit()
+                    return True
         except lite.Error, e:
             if con:
                 con.rollback()
