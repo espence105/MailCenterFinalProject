@@ -128,7 +128,7 @@ class Application(tk.Frame):
     def create_new_employee(self):
         self.destroy()
         # Create a new frame to create a new user
-        newUserFrame = employeeInsert.create_widgets()
+        newUserFrame = employeeInsert.employeeInsert()
         newUserFrame.master.title('Input Employee Username')
         newUserFrame.master.geometry("%dx%d%+d%+d" % (400, 150, 400, 400))
         newUserFrame.mainloop()        
