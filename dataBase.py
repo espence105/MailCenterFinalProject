@@ -26,13 +26,15 @@ class DataBase(object):
                 cur.execute('CREATE TABLE IF NOT EXISTS client(fName TEXT NOT NULL, lName TEXT NOT NULL, studentID TEXT NOT NULL, email TEXT NOT NULL, forwardingAddress TEXT NOT NULL, city TEXT NOT NULL, state TEXT NOT NULL, zipCode TEXT NOT NULL, gradDate TEXT NOT NULL)')
 
                 cur.executemany('INSERT INTO client VALUES(?,?,?,?,?,?,?,?,?)', (client_info,))
-                con.commit
+                con.commit()
                 
+                return True
         except lite.Error, e:
             #Revert database to previous stable state if insert fails
             if con:
                 con.rollback()
-
+            return False
+        
             #print "Error %s:" % e.args[0]
             #sys.exit(1)
 
@@ -62,11 +64,13 @@ class DataBase(object):
                 cur.execute('SELECT * FROM client WHERE studentID = ?', (update_info[5],))
                 row = cur.fetchone()
                 return row
-                    
+                   
         except lite.Error, e:
             if con:
                 con.rollback()
-            
+                
+            return False
+        
             #print "Error %s:"  % e.args[0]
             #sys.exit()
 
@@ -74,7 +78,7 @@ class DataBase(object):
             #Close connection
             if con:
                 con.close()
-
+            
     def select_client(self, client_id):
 
         """ Attempts to pull client info from the database.  Method is passed the
@@ -93,9 +97,12 @@ class DataBase(object):
 
                 row = cur.fetchone()
                 return row
+            
         except lite.Error, e:
             if con:
                 con.rollback()
+                
+            return False
             #print "Error %s:" % e.args[0]
             #sys.exit()
 
@@ -121,12 +128,14 @@ class DataBase(object):
                 
                 cur = self.con.cursor()
                 cur.execute('DELETE FROM client WHERE studentID == ?', (delete_info,))
-                
+                con.commit()
+                return True
                     
         except lite.Error, e:
             if con:
                 con.rollback()
-
+                
+            return False
             #print "Error %s:"  % e.args[0]
             #sys.exit()
 
@@ -143,20 +152,27 @@ class DataBase(object):
 
         #Connect to database.  Creates a new one if it does not exits.
         con = lite.connect('clientDB2.db')
+        print len(employee_username)
         try:
-            with con:
+            if len(employee_username) == 0:
+                return 'fail'
+            
+            else:
+                with con:
 
-                #Create the employee table if it does not exist
-                cur = con.cursor()
-                cur.execute('CREATE TABLE IF NOT EXISTS employee(username TEXT NOT NULL)')
+                    #Create the employee table if it does not exist
+                    cur = con.cursor()
+                    cur.execute('CREATE TABLE IF NOT EXISTS employee(username TEXT NOT NULL)')
 
                 
-                cur.execute('INSERT INTO employee VALUES (?)', (employee_username,))
-
+                    cur.execute('INSERT INTO employee VALUES (?)', (employee_username,))
+                    con.commit()
+                    return True
         except lite.Error, e:
             if con:
                 con.rollback()
-
+                
+            return False
             #print "Error %s:" %e.args[0]
             #sys.exit()
                 
@@ -212,12 +228,22 @@ class DataBase(object):
                 cur = con.cursor()
                 cur.execute('CREATE TABLE IF NOT EXISTS nonstudent(username TEXT NOT NULL, password TEXT NOT NULL, fName TEXT NOT NULL, lName TEXT NOT NULL)')
 
-                cur.execute('INSERT INTO nonstudent VALUES(?,?,?,?)', (nonstudent_info,))
+<<<<<<< Updated upstream
+                cur.executemany('INSERT INTO nonstudent VALUES(?,?,?,?)', (nonstudent_info,))
+=======
+                cur.executemany('INSERT INTO nonstudent VALUES(?,?,?,?)', (nonstudent_info, ))
+>>>>>>> Stashed changes
+                con.commit()
+
+                return True
         except lite.Error, e:
             if con:
                 con.rollback()
-            #print "Error %s:" %e.args[0]
-            #sys.exit()
+
+            
+            print "Error %s:" %e.args[0]
+            sys.exit()
+            return False
         finally:
             if con:
                 con.close()
@@ -237,9 +263,15 @@ class DataBase(object):
                 cur.execute('CREATE TABLE IF NOT EXISTS nonstudent(username TEXT NOT NULL, password TEXT NOT NULL, fName TEXT NOT NULL, lName TEXT NOT NULL)')
 
                 cur.execute('DELETE FROM nonstudent WHERE username = ?', (nonstudent_username,))
+                con.commit()
+
+            return True
+        
         except lite.Error, e:
             if con:
                 con.rollback()
+
+            return False
             #print "Error %s:" %e.args[0]
             #sys.exit()
         finally:
@@ -261,9 +293,15 @@ class DataBase(object):
                 cur.execute('CREATE TABLE IF NOT EXISTS nonstudent(username TEXT NOT NULL, password TEXT NOT NULL, fName TEXT NOT NULL, lName TEXT NOT NULL)')
 
                 cur.execute('UPDATE nonstudent SET password = ? WHERE username = ?)', (nonstudent_info,))
+                con.commit()
+
+                return True
+                
         except lite.Error, e:
             if con:
                 con.rollback()
+
+            return False
             #print "Error %s:" %e.args[0]
             #sys.exit()
         finally:
@@ -283,7 +321,7 @@ class DataBase(object):
                 cur = con.cursor()
                 cur.execute('CREATE TABLE IF NOT EXISTS nonstudent(username TEXT NOT NULL, password TEXT NOT NULL, fName TEXT NOT NULL, lName TEXT NOT NULL)')
 
-                cur.execute('SELECT username, password FROM nonstudent WHERE username = ?)', (nonstudent_username,))
+                cur.execute('SELECT username, password FROM nonstudent WHERE username = (?)', (nonstudent_username,))
 
                 row = cur.fetchone()
                 return row
@@ -291,8 +329,8 @@ class DataBase(object):
         except lite.Error, e:
             if con:
                 con.rollback()
-            #print "Error %s:" %e.args[0]
-            #sys.exit()
+            print "Error %s:" %e.args[0]
+            sys.exit()
         finally:
             if con:
                 con.close()
@@ -302,7 +340,18 @@ class DataBase(object):
 ## FOR TESTING ##
 def main():
     DB = DataBase()
+<<<<<<< Updated upstream
+    fubar = ('fubar', 'fubar', 'fubar', 'fubar')
+    DB.insert_nonstudent(fubar)
+
+    print DB.select_nonstudent('fubar')
+=======
     DB.insert_employee('Group1')
+
+    foo = ('test','test1','test2','test3')
+    # print DB.insert_nonstudent(foo)
+    print DB.select_nonstudent(('test'))
+>>>>>>> Stashed changes
     
 
 if __name__ == '__main__':

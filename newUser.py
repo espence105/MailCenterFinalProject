@@ -65,7 +65,7 @@ class Application(tk.Frame):
     def create_new_user(self):
         hash = sha256_crypt.encrypt(self.userPassword.get())
         db = dataBase.DataBase()
-        db.insert_nonstudent({self.userName, hash, self.userFirstName, self.userLastName})
+        db.insert_nonstudent((self.userName.get(), hash, self.userFirstName.get(), self.userLastName.get()))
         self.destroy()
         
         # Creates new Login Form to login 
