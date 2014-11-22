@@ -223,7 +223,7 @@ class DataBase(object):
                 cur = con.cursor()
                 cur.execute('CREATE TABLE IF NOT EXISTS nonstudent(username TEXT NOT NULL, password TEXT NOT NULL, fName TEXT NOT NULL, lName TEXT NOT NULL)')
 
-                cur.execute('INSERT INTO nonstudent VALUES(?,?,?,?)', (nonstudent_info,))
+                cur.executemany('INSERT INTO nonstudent VALUES(?,?,?,?)', (nonstudent_info,))
                 con.commit()
 
                 return True
@@ -311,7 +311,7 @@ class DataBase(object):
                 cur = con.cursor()
                 cur.execute('CREATE TABLE IF NOT EXISTS nonstudent(username TEXT NOT NULL, password TEXT NOT NULL, fName TEXT NOT NULL, lName TEXT NOT NULL)')
 
-                cur.execute('SELECT username, password FROM nonstudent WHERE username = ?)', (nonstudent_username,))
+                cur.execute('SELECT username, password FROM nonstudent WHERE username = (?)', (nonstudent_username,))
 
                 row = cur.fetchone()
                 return row
@@ -319,8 +319,8 @@ class DataBase(object):
         except lite.Error, e:
             if con:
                 con.rollback()
-            #print "Error %s:" %e.args[0]
-            #sys.exit()
+            print "Error %s:" %e.args[0]
+            sys.exit()
         finally:
             if con:
                 con.close()
@@ -330,7 +330,10 @@ class DataBase(object):
 ## FOR TESTING ##
 def main():
     DB = DataBase()
-    DB.insert_employee('Group1')
+    fubar = ('fubar', 'fubar', 'fubar', 'fubar')
+    DB.insert_nonstudent(fubar)
+
+    print DB.select_nonstudent('fubar')
     
 
 if __name__ == '__main__':
