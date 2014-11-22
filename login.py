@@ -8,7 +8,10 @@ import tkMessageBox
 import ldapConnection
 import dataBase
 import mailCenterClientGui
+import forwardClientGui
 import newUser
+
+from passlib.hash import sha256_crypt
 
 
 class Application(tk.Frame):
@@ -62,17 +65,19 @@ class Application(tk.Frame):
     def login(self):
         if self.attempt_login():
             typePerson = self.selection.get()
+            self.destroy()
             if(typePerson == 1):
-               self.destroy()
                # Creating the mailCenterClientGui
                newGui = mailCenterClientGui.Application()
-               newGui.master.title('Mail Center Client GUI')
+               newGui.master.title('Mail Center Client')
+               newGui.master.geometry("800x300")
                newGui.mainloop()
-               newGui.geometry("800x300")
-            if(typePerson == 2):
-                pass
-            if(typePerson == 3):
-                pass
+              # Creates  
+            if(typePerson == 2 or typePerson == 3):
+               newGui = forwardClientGui.ClientFrontend()
+               newGui.master.title('Mail Forwarding ')
+               newGui.master.geometry("800x300")
+               newGui.mainloop()
         else:
             tkMessageBox.showinfo('Incorrect Information', 'Your username or password is incorrect')
             
@@ -80,6 +85,8 @@ class Application(tk.Frame):
     def attempt_login(self):
         typePerson = self.selection.get()
         connection = ldapConnection.ldapConnection(self.userName.get(), self.userPassword.get())
+
+        # This is for a mailcenter login
         if(typePerson == 1):
            if connection.connect():
                data = dataBase.DataBase()
@@ -87,15 +94,21 @@ class Application(tk.Frame):
                    return True
                else:
                    return False
+
+        # Student/Facualty login     
         if(typePerson == 2):
             return connection.connect()
-        if(typePerson == 3): # TODO NOT WORKING 
+        
+        # Non-Student login
+        if(typePerson == 3):
             db = dataBase.DataBase()
-            response = db.select_nonstudent('test')
+            response = db.select_nonstudent(self.userName.get()) # Gets the username and hash of userpassword
             print response
             if response != None:
-                print sha256_crypt.verify(self.userPassword, response[1])
-                
+                if sha256_crypt.verify(self.userPassword.get(), response[1]): # Checks if password inputted and the one in db are the same
+                    return True
+                else:
+                    return False
             
     def create_new_login(self):
         self.destroy()
