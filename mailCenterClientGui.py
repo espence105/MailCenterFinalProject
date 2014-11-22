@@ -9,6 +9,7 @@ import labelCreator
 import Tkinter as tk
 import tkMessageBox
 import sqlite3
+import employeeInsert
 conn = sqlite3.connect('clientDB2.db')
 
 class Application(tk.Frame):
@@ -32,6 +33,8 @@ class Application(tk.Frame):
                                       command = self.search)
         self.printButton = tk.Button(self, text = 'Print Selected Labels',
                                      command = self.printLabel)
+        self.addButton = tk.Button(self, text = 'Add Mail Center Employee',
+                                   comman = self.create_new_employee)
         
         #make search info labels
         self.lastName = tk.Label(self, text = 'Last Name:') 
@@ -57,7 +60,8 @@ class Application(tk.Frame):
         self.fwdLabel.grid(row=5, column=0, columnspan=2)
         
         self.infoLB.grid(row=6,column=0,columnspan=2)
-        self.printButton.grid(row=5, column=3)
+        self.printButton.grid(row=6, column=3)
+        self.addButton.grid(row = 5, column=3)
 
         self.infoLB.grid(row=6,column=0,columnspan=3)
 
@@ -120,7 +124,14 @@ class Application(tk.Frame):
         foo = {'name': matchObj.group(1) + ' ' + matchObj.group(2) , 'address': matchObj.group(4), 'state':matchObj.group(3)}
         test = labelCreator.labelMaker(foo)
         test.create_everything()
-        
+
+    def create_new_employee(self):
+        self.destroy()
+        # Create a new frame to create a new user
+        newUserFrame = employeeInsert.create_widgets()
+        newUserFrame.master.title('Input Employee Username')
+        newUserFrame.master.geometry("%dx%d%+d%+d" % (400, 150, 400, 400))
+        newUserFrame.mainloop()        
         
 
 def main():
