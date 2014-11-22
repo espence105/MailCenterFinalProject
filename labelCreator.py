@@ -4,6 +4,7 @@
 # Purpose: to create a label 
 import labels
 from reportlab.graphics import shapes
+import subprocess
 
 # Got parts of this code from pylabels github - basic.py  #
 class labelMaker():
@@ -46,6 +47,7 @@ class labelMaker():
 
         # Save the file and we are done.
         sheet.save('basic.pdf')
+        subprocess.Popen('basic.pdf',shell=True)
         print("{0:d} label(s) output on {1:d} page(s).".format(sheet.label_count, sheet.page_count))
 
 # main for testing
