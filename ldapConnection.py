@@ -25,16 +25,16 @@ class ldapConnection():
             # if they can connect it sees who they are 
             if (self.ldapConnection.whoami_s() != None):
                 print self.ldapConnection.whoami_s()
-                print 'Autenticated!'
+                return True
             else:
-                print 'Invalid login'
+                return False
         except ldap.LDAPError, e:
-            print 'Error: ', e
+            return 'Error: ', e
             exit(3)
 
 # Used for testing 
 def main():
-    foo = ldapConnection('Group1asdf', 'cpsc4500@')
+    foo = ldapConnection('Group1', 'cpsc4500@')
     foo.connect()
 
 if __name__ == '__main__':
