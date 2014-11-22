@@ -1,6 +1,8 @@
 #mailCenterClientGui.py
 #Makenzie Bontrager
 #November 11
+#provide mail center employees with interface to search forwarding clients, and
+#print labels
 
 import re
 import labelCreator
@@ -21,7 +23,7 @@ class Application(tk.Frame):
         
     def create_widgets(self):
         #make info labels
-        self.welcomeLabel = tk.Label(self, text = 'Welcome Mail Center Client')
+        self.welcomeLabel = tk.Label(self, text = 'Welcome Mail Center')
         self.searchLabel = tk.Label(self, text = 'Search for forwarding student')
         self.infoLB = tk.Listbox(self, selectmode='multiple', width=70)
         
@@ -44,7 +46,7 @@ class Application(tk.Frame):
         self.lastEntry = tk.Entry(self, width=40)
 
         #display widgets in grid
-        self.welcomeLabel.grid(row=0, column=0)
+        self.welcomeLabel.grid(row=0, column=0, columnspan=5)
         self.searchLabel.grid(row=1, column=0)
         
         self.lastName.grid(row=3, column=2)
@@ -54,12 +56,10 @@ class Application(tk.Frame):
         self.searchButton.grid(row=3, column=4)
         self.fwdLabel.grid(row=5, column=0, columnspan=2)
         
-<<<<<<< HEAD
         self.infoLB.grid(row=6,column=0,columnspan=2)
         self.printButton.grid(row=5, column=3)
-=======
+
         self.infoLB.grid(row=6,column=0,columnspan=3)
->>>>>>> 0f06de6a9c3b27eb9d25b984f2cae2e82c03f9bf
 
     def getDBinfo(self):    
         # Get a cursor object
