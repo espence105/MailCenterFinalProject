@@ -125,7 +125,7 @@ class Application(tk.Frame):
 
 def main():
     app = Application()
-    app.master.title('Mail Center Client GUI')
+    app.master.title('Mail Center Interface')
     app.master.geometry('800x300')
     app.mainloop()
 
