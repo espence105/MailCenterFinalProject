@@ -33,14 +33,18 @@ class employeeInsert(tk.Frame):
 
     def update(self):
         #run employee insert in dataBase.py and check if successful
-        if DataBase.insert_employee(DB, self.InsertUser.get()):
+        if DataBase.insert_employee(DB, self.InsertUser.get()) == True:
             #display success messageand empty text box
             tkMessageBox.showinfo('Username accepted', 'The username has been accepted.')
             self.InsertUser.delete(0, tk.END)
-        else:
+        elif DataBase.insert_employee(DB, self.InsertUser.get()) == False:
             #display failure message and empty text box
-            tkMessageBox.showinfo('An error has occurred', 'The database could not be updated.')
+            tkMessageBox.showinfo('An error has occurred', 'The username could not be added to the database.')
             self.InsertUser.delete(0, tk.END)
+        else:
+            #display message if nothing was entered
+            tkMessageBox.showinfo('No username given', 'Please enter a username first.')
+        print self.InsertUser.get()      
     
 
 def main():
