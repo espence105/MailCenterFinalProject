@@ -228,11 +228,9 @@ class DataBase(object):
                 cur = con.cursor()
                 cur.execute('CREATE TABLE IF NOT EXISTS nonstudent(username TEXT NOT NULL, password TEXT NOT NULL, fName TEXT NOT NULL, lName TEXT NOT NULL)')
 
-<<<<<<< Updated upstream
+
                 cur.executemany('INSERT INTO nonstudent VALUES(?,?,?,?)', (nonstudent_info,))
-=======
-                cur.executemany('INSERT INTO nonstudent VALUES(?,?,?,?)', (nonstudent_info, ))
->>>>>>> Stashed changes
+
                 con.commit()
 
                 return True
@@ -340,19 +338,9 @@ class DataBase(object):
 ## FOR TESTING ##
 def main():
     DB = DataBase()
-<<<<<<< Updated upstream
+
     fubar = ('fubar', 'fubar', 'fubar', 'fubar')
     DB.insert_nonstudent(fubar)
-
-    print DB.select_nonstudent('fubar')
-=======
-    DB.insert_employee('Group1')
-
-    foo = ('test','test1','test2','test3')
-    # print DB.insert_nonstudent(foo)
-    print DB.select_nonstudent(('test'))
->>>>>>> Stashed changes
-    
 
 if __name__ == '__main__':
     main()

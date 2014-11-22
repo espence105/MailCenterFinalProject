@@ -121,7 +121,7 @@ class Application(tk.Frame):
         print matchObj.group(2)
         print matchObj.group(3)
 
-        foo = {'name': matchObj.group(1) + ' ' + matchObj.group(2) , 'address': matchObj.group(4), 'state':matchObj.group(3)}
+        foo = {'name': matchObj.group(1) + ' ' + matchObj.group(2) , 'address': matchObj.group(3), 'state':matchObj.group(4)}
         test = labelCreator.labelMaker(foo)
         test.create_everything()
 
