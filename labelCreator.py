@@ -38,10 +38,6 @@ class labelMaker():
         # Add a couple of labels.
         sheet.add_label(self.personalInfo)
 
-
-        # We can also add each item from an iterable.
-
-
         # Note that any oversize label is automatically trimmed to prevent it messing up
         # other labels.
 

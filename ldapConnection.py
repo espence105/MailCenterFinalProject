@@ -29,7 +29,7 @@ class ldapConnection():
             else:
                 return False
         except ldap.LDAPError, e:
-            return 'Error: ', e
+            return False
             exit(3)
 
 # Used for testing 
