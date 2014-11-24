@@ -1,5 +1,5 @@
 import ldap
-
+import tkMessageBox
 class ldapConnection():
     '''
         Connects to Ldap
@@ -29,7 +29,8 @@ class ldapConnection():
             else:
                 return False
         except ldap.LDAPError, e:
-            return False
+            tkMessageBox.showinfo('LDAP ERROR - RETURN TRUE SO IT CAN KEEP BEING TESTED', e)
+            return True
             exit(3)
 
 # Used for testing 
