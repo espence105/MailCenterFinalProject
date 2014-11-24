@@ -42,7 +42,9 @@ class Application(tk.Frame):
         self.userNameLabel = tk.Label(self, text='User Name')
         self.userPasswordLabel = tk.Label(self, text='Password')
         # Creating an entry widget for password that will show ****
+
         self.userPassword = tk.Entry(self, width=40, show='*')
+
         self.userPassword.insert(0,'***')
         # Create button to create non-au login
         self.createNewUserButton = tk.Button(self,text='Create New Login', command = self.create_new_login)
@@ -84,10 +86,13 @@ class Application(tk.Frame):
     # Attempts to login    
     def attempt_login(self):
         typePerson = self.selection.get()
+        print self.userName.get()
+        print self.userPassword.get()
         connection = ldapConnection.ldapConnection(self.userName.get(), self.userPassword.get())
 
         # This is for a mailcenter login
         if(typePerson == 1):
+           print connection.connect()
            if connection.connect():
                data = dataBase.DataBase()
                if data.select_employee(self.userName.get()):
