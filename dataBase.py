@@ -25,7 +25,7 @@ class DataBase(object):
                 #Create the client table if it does not already exist
                 cur.execute('CREATE TABLE IF NOT EXISTS client(fName TEXT NOT NULL, lName TEXT NOT NULL, studentID TEXT NOT NULL, email TEXT NOT NULL, forwardingAddress TEXT NOT NULL, city TEXT NOT NULL, state TEXT NOT NULL, zipCode TEXT NOT NULL, gradDate TEXT NOT NULL)')
 
-                cur.executemany('INSERT INTO client VALUES(?,?,?,?,?,?,?,?,?)', (client_info,))
+                cur.executemany('INSERT INTO client VALUES(?,?,?,?,?,?,?,?,?,0)', (client_info,))
                 con.commit()
                 
                 return True
@@ -43,7 +43,39 @@ class DataBase(object):
             if con:
                 con.close()
 
-    
+    def update_client_expired(self, update_info):
+        """ Attempts to update client info.  Method is passed a tuple containing
+            updatable information (email, address, city, state, zip code), as
+            well as the student ID to find the user in the database.  Reverts
+            database to pre-update state if query fails. """
+        
+        #Connect to database.  Will also create new database if it does not exist.
+        con = lite.connect('clientDB2.db')
+        try:
+            with con:
+                cur = con.cursor()
+                #Create the client table if it does not already exist
+                # cur.execute('CREATE TABLE IF NOT EXISTS client(fName TEXT NOT NULL, lName TEXT NOT NULL, studentID TEXT NOT NULL, email TEXT NOT NULL, forwardingAddress TEXT NOT NULL, city TEXT NOT NULL, state TEXT NOT NULL, zipCode TEXT NOT NULL, gradDate TEXT NOT NULL)')
+                
+                cur.executemany('UPDATE client SET expired=? WHERE studentID = ?', (update_info,))
+
+                cur.execute('SELECT * FROM client WHERE studentID = ?', (update_info[1],))
+                row = cur.fetchone()
+                return row
+                   
+        except lite.Error, e:
+            if con:
+                con.rollback()
+            print "Error %s:"  % e.args[0]   
+            return False
+        
+            
+            #sys.exit()
+
+        finally:
+            #Close connection
+            if con:
+                con.close()
 
     def update_client(self, update_info):
         """ Attempts to update client info.  Method is passed a tuple containing

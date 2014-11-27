@@ -11,6 +11,9 @@ import sqlite3
 conn = sqlite3.connect('clientDB2.db')
 
 
+# TODO VALIDATE GRADUATION DATE SO THAT IT IS MM-DD-YYYY
+
+
 class ClientFrontend(tk.Frame):
     def __init__(self, master=None):
         
@@ -134,7 +137,7 @@ class ClientFrontend(tk.Frame):
         conn = sqlite3.connect('clientDB2.db')
         c = conn.cursor()
         # Insert statement into the table 
-        c.execute("INSERT INTO client(fName,lName,studentID,email,forwardingAddress,city,state,zipCode,gradDate) VALUES (?,?,?,?,?,?,?,?,?)",
+        c.execute("INSERT INTO client(fName,lName,studentID,email,forwardingAddress,city,state,zipCode,gradDate, expired) VALUES (?,?,?,?,?,?,?,?,?,0)",
                    [self.TypeFirstName.get(),self.TypeLastName.get(),self.TypeStudentID.get(),self.TypeEmail.get(),self.TypeStreetAddress.get(),self.TypeCity.get(),self.TypeState.get(),self.TypeZip.get(),self.TypeGradDay.get()])
         conn.commit()
 
