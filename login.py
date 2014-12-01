@@ -64,6 +64,8 @@ class Application(tk.Frame):
     # The action taken with the button click
     def login(self):
         if self.attempt_login():
+            print self.attempt_login()
+            print 'ADSFADS'
             typePerson = self.selection.get()
             self.destroy()
             if(typePerson == 1):
@@ -97,7 +99,10 @@ class Application(tk.Frame):
 
         # Student/Facualty login     
         if(typePerson == 2):
-            return connection.connect()
+            if connection.connect():
+                return True
+            else:
+                return False
         
         # Non-Student login
         if(typePerson == 3):
@@ -109,6 +114,7 @@ class Application(tk.Frame):
                     return True
                 else:
                     return False
+        return False
             
     def create_new_login(self):
         self.destroy()
