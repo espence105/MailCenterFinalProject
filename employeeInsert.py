@@ -5,6 +5,8 @@ import re
 import Tkinter as tk
 import tkMessageBox
 import sqlite3
+import mailCenterClientGui
+
 from dataBase import DataBase
 
 DB = DataBase()
@@ -37,6 +39,13 @@ class employeeInsert(tk.Frame):
             #display success messageand empty text box
             tkMessageBox.showinfo('Username accepted', 'The username has been accepted.')
             self.InsertUser.delete(0, tk.END)
+            self.destroy()
+            
+            newGui = mailCenterClientGui.Application()
+            newGui.master.title('Mail Center Client')
+            newGui.master.geometry("800x300")
+            newGui.mainloop()
+            
         elif DataBase.insert_employee(DB, self.InsertUser.get()) == False:
             #display failure message and empty text box
             tkMessageBox.showinfo('An error has occurred', 'The username could not be added to the database.')
@@ -44,8 +53,7 @@ class employeeInsert(tk.Frame):
         else:
             #display message if nothing was entered
             tkMessageBox.showinfo('No username given', 'Please enter a username first.')
-        print self.InsertUser.get()      
-    
+        print self.InsertUser.get()
 
 def main():
     app = employeeInsert()
