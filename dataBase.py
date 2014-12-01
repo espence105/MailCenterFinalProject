@@ -359,7 +359,6 @@ class DataBase(object):
         except lite.Error, e:
             if con:
                 con.rollback()
-            print "Error %s:" %e.args[0]
             sys.exit()
         finally:
             if con:

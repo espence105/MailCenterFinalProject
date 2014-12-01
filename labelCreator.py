@@ -44,7 +44,6 @@ class labelMaker():
         # Save the file and we are done.
         sheet.save('basic.pdf')
         subprocess.Popen('basic.pdf',shell=True)
-        print("{0:d} label(s) output on {1:d} page(s).".format(sheet.label_count, sheet.page_count))
 
 # main for testing
 def main():

@@ -11,6 +11,7 @@ import tkMessageBox
 import sqlite3
 import employeeInsert
 import ericAutoBot
+import login
 
 conn = sqlite3.connect('clientDB2.db')
 
@@ -66,7 +67,17 @@ class Application(tk.Frame):
         self.printButton.grid(row=6, column=3)
         self.addButton.grid(row = 5, column=3)
 
+        self.logoutButton = tk.Button(self, text='Log Out',command=self.logout,width=20)
+        self.logoutButton.grid(row=7,column=3)
+
         self.infoLB.grid(row=6,column=0,columnspan=3)
+        
+    def logout(self):
+        self.destroy()
+        app = login.Application()
+        app.master.title('Login')
+        app.master.geometry("%dx%d%+d%+d" % (700, 150, 400, 400))
+        app.mainloop()
 
     def getDBinfo(self):    
         # Get a cursor object
@@ -120,9 +131,6 @@ class Application(tk.Frame):
         selected = self.infoLB.get('active')
         matchObj = re.match(r'([\w]+), ([\w]+): ([\w\s]+), ([\w\s]+)' ,
                                             selected, re.M|re.I)
-        print matchObj.group(1)
-        print matchObj.group(2)
-        print matchObj.group(3)
 
         foo = {'name': matchObj.group(1) + ' ' + matchObj.group(2) , 'address': matchObj.group(3), 'state':matchObj.group(4)}
         test = labelCreator.labelMaker(foo)

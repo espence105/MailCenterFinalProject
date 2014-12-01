@@ -21,10 +21,8 @@ class ldapConnection():
         # attempts to connect to ldap server
         try:
             returnval = self.ldapConnection.bind(self.dn, self.pw)
-            print 'connected'
             # if they can connect it sees who they are 
             if (self.ldapConnection.whoami_s() != None):
-                print self.ldapConnection.whoami_s()
                 return True
             else:
                 return False

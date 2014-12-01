@@ -53,7 +53,6 @@ class employeeInsert(tk.Frame):
         else:
             #display message if nothing was entered
             tkMessageBox.showinfo('No username given', 'Please enter a username first.')
-        print self.InsertUser.get()
 
 def main():
     app = employeeInsert()

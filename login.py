@@ -56,12 +56,15 @@ class Application(tk.Frame):
         self.userPassword.grid(row=2,column=1)
         self.loginButton.grid(row=4, column = 0)
         self.createNewUserButton.grid(row=4,column =1)
-    
+
+  
+        
         # Adding radio buttons to the login frame
         self.selection = IntVar() # IntVar is a Tkinter function to interact with radio Buttons
         self.mailCenterLogin = tk.Radiobutton(self, text='Employee', variable = self.selection, value=1).grid(row=3,column=0)
         self.studentLogin = tk.Radiobutton(self, text='Student', variable = self.selection, value=2).grid(row=3,column=1)
         self.nonAuLogin = tk.Radiobutton(self,text='NonAu Login', variable = self.selection, value=3).grid(row=3,column=2)
+
         
     # The action taken with the button click
     def login(self):

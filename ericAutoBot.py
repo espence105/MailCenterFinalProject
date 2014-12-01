@@ -42,23 +42,19 @@ def check_date(clients):
             futureDate = client[8].split('-')
             if int(futureDate[1]) > 29:
                 futureDate[1] = 29
-            print futureDate
             futureDate[0] = int(futureDate[0])
-            print type(futureDate[0])
             futureDate[0] = futureDate[0] + 6
-            print futureDate[0]
             if (futureDate[0] > 12):
                 futureDate[0] = futureDate[0] - 12 # TODO - make sure this is creating the correct value
                 futureDate[2] = int(futureDate[2])+1
             stringFuture = '%d-%d-%d' % (int(futureDate[0]), int(futureDate[1]), int(futureDate[2]))
             future = datetime.datetime.strptime(stringFuture, '%m-%d-%Y')   
             today = datetime.datetime.today()
-            print future < today
             if future < today:
                 nonForward.append(client)
             
         except:
-            print'ERROR', sys.exc_info()[0]
+            pass
     return nonForward
         # new_row = client[8].split('-')
         # if len(new_row) != 3:
@@ -66,12 +62,11 @@ def check_date(clients):
 
 def send_email(expiredClients):
     for client in expiredClients:
-        print client[3]
         headers = Parser().parsestr('From: testauemail105@gmail.com\n'
                                      'To: %s\n'
                                      'Subject: Forwarding Expired\n'
                                      '\n'
-                                     'Your mail forwarding from Anderson University has expired\n' % ('espence105@gmail.com')) # to send this to other people need to change this to client[3]
+                                     'Your mail forwarding from Anderson University has expired\n' % (client[3])) # to send this to other people need to change this to client[3]
         message = 'Subject: Forwarding Expired\n\nYour mail forwarding from Anderson University has expired\n'
         ##### Got help this from stackoverflow ####
         s = smtplib.SMTP('smtp.gmail.com', 587)
@@ -88,17 +83,13 @@ def send_email(expiredClients):
 
 def flag_expired(expiredClients):
     for client in expiredClients:
-        client = list(client)
-        client[9] = 1
-        client = tuple(client)
         db = dataBase.DataBase()
-        db.update_client_expired((client[9],client[2]))
+        db.update_client_expired((1,client[2]))
         
 
 def main():
     clients = get_clients()
     expiredClients = check_date(clients)
-    print expiredClients
     send_email(expiredClients)
     flag_expired(expiredClients)
 

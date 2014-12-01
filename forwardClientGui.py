@@ -4,6 +4,7 @@
 #Students will enter their forwarding information.
 
 import re
+import login
 #Using Tkinter
 import Tkinter as tk # link to the Gui.py file
 import tkMessageBox
@@ -103,12 +104,22 @@ class ClientFrontend(tk.Frame):
         self.GradDayLabel.grid(row=9, column = 0,sticky='e')
         self.TypeGradDay.grid(row=9,column=1)
 
+    
+
         #Displaying the Textboxes and the labels 
         ###########################################################################
-       
+        self.logoutButton = tk.Button(self, text='Log Out',command=self.logout,width=20)
+        self.logoutButton.grid()
+        ##########################
         self.saveButton.grid()
-
         
+
+    def logout(self):
+        self.destroy()
+        app = login.Application()
+        app.master.title('Login')
+        app.master.geometry("%dx%d%+d%+d" % (700, 150, 400, 400))
+        app.mainloop()
 
     def save(self):
         if re.match('(?:0[0-9]|1[0-2])-(?:[0-3][0-9])-(?:[0-9]{4})', self.TypeGradDay.get(), re.M|re.I):
@@ -160,8 +171,6 @@ class ClientFrontend(tk.Frame):
         self.TypeZip.delete(0,tk.END)
         self.TypeEmail.delete(0,tk.END)
         self.TypeGradDay.delete(0,tk.END)
-         
-        print ("Saved")
         return True
 
         
