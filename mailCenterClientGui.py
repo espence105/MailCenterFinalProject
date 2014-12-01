@@ -10,11 +10,14 @@ import Tkinter as tk
 import tkMessageBox
 import sqlite3
 import employeeInsert
+import ericAutoBot
+
 conn = sqlite3.connect('clientDB2.db')
 
 class Application(tk.Frame):
     
     def __init__ (self, master = None):
+        ericAutoBot.main()
         tk.Frame.__init__(self, master)
         self.grid()
         self.create_widgets()

@@ -40,6 +40,8 @@ def check_date(clients):
         try:
             # foo =  datetime.datetime.strptime(client[8], '%m-%d-%Y')    
             futureDate = client[8].split('-')
+            if int(futureDate[1]) > 29:
+                futureDate[1] = 29
             print futureDate
             futureDate[0] = int(futureDate[0])
             print type(futureDate[0])
@@ -79,6 +81,7 @@ def send_email(expiredClients):
         s.login('testaumail105@gmail.com','testpassword105')
         s.sendmail(headers['from'],headers['to'], message)
         s.quit()
+    return expiredClients
         
         #######
 

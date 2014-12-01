@@ -86,13 +86,10 @@ class Application(tk.Frame):
     # Attempts to login    
     def attempt_login(self):
         typePerson = self.selection.get()
-        print self.userName.get()
-        print self.userPassword.get()
         connection = ldapConnection.ldapConnection(self.userName.get(), self.userPassword.get())
 
         # This is for a mailcenter login
         if(typePerson == 1):
-           print connection.connect()
            if connection.connect():
                data = dataBase.DataBase()
                if data.select_employee(self.userName.get()):
@@ -108,7 +105,6 @@ class Application(tk.Frame):
         if(typePerson == 3):
             db = dataBase.DataBase()
             response = db.select_nonstudent(self.userName.get()) # Gets the username and hash of userpassword
-            print response
             if response != None:
                 if sha256_crypt.verify(self.userPassword.get(), response[1]): # Checks if password inputted and the one in db are the same
                     return True

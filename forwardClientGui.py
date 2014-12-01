@@ -3,6 +3,7 @@
 #Jason Samuels
 #Students will enter their forwarding information.
 
+import re
 #Using Tkinter
 import Tkinter as tk # link to the Gui.py file
 import tkMessageBox
@@ -110,25 +111,30 @@ class ClientFrontend(tk.Frame):
         
 
     def save(self):
-        #Setting if variables 
-        fname=self.TypeFirstName.get()
-        lname=self.TypeLastName.get()
-        StudentID=self.TypeStudentID.get()
-        Email=self.TypeEmail.get()
-        StreetAddress=self.TypeStreetAddress.get()
-        City=self.TypeCity.get()
-        State=self.TypeState.get()
-        Zip=self.TypeZip.get()
-        GradDay=self.TypeGradDay.get()
-        
-        #If all are not entered at all then disply error message. 
-        if fname=='' or lname=='' or StudentID=='' or Email=='' or StreetAddress==''\
-        or City==''or State=='' or Zip=='' or GradDay=='':
-            tkMessageBox.showinfo('Error Message','Please enter all info!')
+        if re.match('(?:0[0-9]|1[0-2])-(?:[0-3][0-9])-(?:[0-9]{4})', self.TypeGradDay.get(), re.M|re.I):
+            
+            #Setting if variables 
+            fname=self.TypeFirstName.get()
+            lname=self.TypeLastName.get()
+            StudentID=self.TypeStudentID.get()
+            Email=self.TypeEmail.get()
+            StreetAddress=self.TypeStreetAddress.get()
+            City=self.TypeCity.get()
+            State=self.TypeState.get()
+            Zip=self.TypeZip.get()
+            GradDay=self.TypeGradDay.get()
+            
+            #If all are not entered at all then disply error message. 
+            if fname=='' or lname=='' or StudentID=='' or Email=='' or StreetAddress==''\
+            or City==''or State=='' or Zip=='' or GradDay=='':
+                tkMessageBox.showinfo('Error Message','Please enter all info!')
+            else:
+                if self.attempt_save():
+                    tkMessageBox.showinfo('Updated Info','Info has been Updated and Saved')
         else:
-            if self.attempt_save():
-                tkMessageBox.showinfo('Updated Info','Info has been Updated and Saved')
-    #attempt save method
+            tkMessageBox.showinfo('Invalid Graduation', 'Format must be MM-DD-YYYY')
+
+        #attempt save method
     def attempt_save(self):
         '''Connecting to the database and inserting/saving the info
         into the database that the user inputs '''
