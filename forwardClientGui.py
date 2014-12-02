@@ -18,6 +18,7 @@ class ClientFrontend(tk.Frame):
         self.grid()
         self.create_widgets()
         
+        
 
 #These are the widgets.
     def create_widgets(self):
@@ -36,12 +37,13 @@ class ClientFrontend(tk.Frame):
         
         self.TypeStreetAddress = tk.Entry(self, width=40)
         self.TypeStreetAddress.insert(0,'')
+
         
         self.TypeState = tk.Entry(self, width=40)
         self.TypeState.insert(0,'')
 
         self.TypeCity = tk.Entry(self, width=40)
-        self.TypeCity.insert(0,'')
+        self.TypeCity.insert(0,'') 
 
         self.TypeZip = tk.Entry(self, width=40)
         self.TypeZip.insert(0,'')
@@ -49,8 +51,10 @@ class ClientFrontend(tk.Frame):
         self.TypeEmail = tk.Entry(self, width=40)
         self.TypeEmail.insert(0,'')
 
+        
         self.TypeGradDay= tk.Entry(self, width=40)
         self.TypeGradDay.insert(0,'')
+       
 
   
 
@@ -64,13 +68,8 @@ class ClientFrontend(tk.Frame):
         self.CityLabel = tk.Label(self, text='     City:')
         self. ZipLabel= tk.Label(self, text='Zip:')
         self.EmailLabel = tk.Label(self, text='     Email:')
-        self.GradDayLabel = tk.Label(self, text='Graduation Date:')
-       
-        
+        self.GradDayLabel = tk.Label(self, text='Graduation Year:')
 
-        
-
-        
         self.introLabel.grid()
         self.FirstNameLabel.grid(row=2, column =2)
         self.TypeFirstName.grid(row=2,column=3)
@@ -107,24 +106,50 @@ class ClientFrontend(tk.Frame):
         
 
     def save(self):
-        #Setting if variables 
-        fname=self.TypeFirstName.get()
-        lname=self.TypeLastName.get()
-        StudentID=self.TypeStudentID.get()
-        Email=self.TypeEmail.get()
-        StreetAddress=self.TypeStreetAddress.get()
-        City=self.TypeCity.get()
-        State=self.TypeState.get()
-        Zip=self.TypeZip.get()
-        GradDay=self.TypeGradDay.get()
+        #Setting if variables
+        #Validation for inputs
+         fname=self.TypeFirstName.get()
+         lname=self.TypeLastName.get()
+         StudentID=self.TypeStudentID.get()
+         Email=self.TypeEmail.get()
+         StreetAddress=self.TypeStreetAddress.get()
+         City=self.TypeCity.get()
+         State=self.TypeState.get()
+         Zip=self.TypeZip.get()
+         GradDay=self.TypeGradDay.get()
+         
+            
         
-        #If all are not entered at all then disply error message. 
-        if fname=='' or lname=='' or StudentID=='' or Email=='' or StreetAddress==''\
-        or City==''or State=='' or Zip=='' or GradDay=='':
-            tkMessageBox.showinfo('Error Message','Please enter all info!')
-        else:
-            if self.attempt_save():
-                tkMessageBox.showinfo('Updated Info','Info has been Updated and Saved')
+        #If all are not entered at all then disply error message.
+        #Validation for inputs
+
+         try:
+        
+              if len(StudentID) < 7 or len(StudentID)>7:
+                  tkMessageBox.showinfo('Error Message','Please enter 7 digit Student ID!  ')
+
+              if len(Zip) < 5 or len(Zip)>5:
+                  tkMessageBox.showinfo('Error Message','Please enter 5 digit Zip Code!  ')
+                  
+              if len(GradDay) < 4 or len(GradDay)>4:
+                  tkMessageBox.showinfo('Error Message','Please enter Year of Graduation!  ')
+                  
+                     
+              if fname=='' or lname=='' or StudentID=='' or Email=='' or StreetAddress==''\
+              or City==''or State=='' or Zip=='' or GradDay=='':
+                  tkMessageBox.showinfo('Error Message','Please enter all info!')
+              else:
+                  if self.attempt_save():
+                      tkMessageBox.showinfo('Updated Info','Info has been Updated and Saved!')
+              StudentID=int(self.TypeStudentID.get())
+              Zip=int(self.TypeZip.get())
+              GradDay=int(self.TypeGradDay.get())
+         except ValueError:
+                 tkMessageBox.showinfo('Error Message','Please enter correct format for Graduation Date,ZipCode and/or Student ID!  ')
+        
+
+        
+   
     #attempt save method
     def attempt_save(self):
         '''Connecting to the database and inserting/saving the info
